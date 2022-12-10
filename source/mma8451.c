@@ -81,8 +81,6 @@ void read_xyz(void)
 	acc_Z = (int8_t) i2c_read_byte(MMA_ADDR, REG_ZHI);
 
 }
-int roll_angle = 0 , pitch_angle = 0;
-int ref_roll = 0, ref_pitch = 0;
 
 void convert_xyz_to_roll_pitch(void) {
 
