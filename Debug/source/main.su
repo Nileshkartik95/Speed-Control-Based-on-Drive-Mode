@@ -1,0 +1,6 @@
+../source/main.c:112:5:get_redled_intensity	16	static
+../source/main.c:118:5:get_greenled_intensity	16	static
+../source/main.c:124:5:get_blueled_intensity	16	static
+../source/main.c:129:6:TakeAction_Event	16	static
+../source/main.c:234:6:transition_parkbrake	64	static
+../source/main.c:277:5:main	16	static

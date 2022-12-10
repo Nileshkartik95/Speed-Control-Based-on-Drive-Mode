@@ -1,0 +1,8 @@
+../source/cb_fifo.c:30:6:queue_init	24	static
+../source/cb_fifo.c:41:5:queue_empty	16	static
+../source/cb_fifo.c:46:5:queue_full	16	static
+../source/cb_fifo.c:51:5:queue_size	16	static
+../source/cb_fifo.c:56:5:cbfifo_capacity	8	static
+../source/cb_fifo.c:62:8:cbfifo_enqueue	64	static
+../source/cb_fifo.c:95:8:cbfifo_dequeue	56	static
+../source/cb_fifo.c:124:6:test_cbfifo	1040	static

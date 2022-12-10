@@ -1,0 +1,6 @@
+D:\Downloads\Desktop\pes_finalproject\CMSIS/core_cm0plus.h:745:22:NVIC_EnableIRQ	16	static
+D:\Downloads\Desktop\pes_finalproject\CMSIS/core_cm0plus.h:791:22:NVIC_ClearPendingIRQ	16	static
+D:\Downloads\Desktop\pes_finalproject\CMSIS/core_cm0plus.h:804:22:NVIC_SetPriority	24	static
+../source/TSI_module.c:35:6:TSIInit	8	static
+../source/TSI_module.c:65:6:TSI0_IRQHandler	8	static
+../source/TSI_module.c:72:5:get_touch_val	8	static

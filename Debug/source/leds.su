@@ -1,0 +1,5 @@
+../source/leds.c:43:6:Init_RGB_LEDs	16	static
+../source/leds.c:81:6:setledpwm_uphill	16	static
+../source/leds.c:124:6:setledpwm_downhill	16	static
+../source/leds.c:166:6:setledpwm_plainterrain	8	static
+../source/leds.c:187:6:setledpwm_parkbrake	8	static
