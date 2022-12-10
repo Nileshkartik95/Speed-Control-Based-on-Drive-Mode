@@ -45,7 +45,24 @@ Following are tha various test criteria:
 
 User Access:
 Access granted
+
 ![image](https://user-images.githubusercontent.com/112504087/206811508-668146ca-6d1c-4d8b-a7df-d62527608ff0.png)
+
 Access Denied
+
 ![image](https://user-images.githubusercontent.com/112504087/206811579-d3667d34-27ab-4c19-87e2-4e0f62880c1d.png)
+
+Downhill --> Critical Drive Condition --> Downhill --> Plainterrain
+
+![image](https://user-images.githubusercontent.com/112504087/206827347-2d4c4fe6-3c8d-4283-89f1-ab2a9004a88e.png)
+
+Uphill --> Critical Drive Condition --> Uphill --> Plainterrain
+
+![image](https://user-images.githubusercontent.com/112504087/206827393-715c07ce-40e0-4b39-bbce-97359fc3ef67.png)
+
+Uphill --> Bump --> Plainterrain
+
+![image](https://user-images.githubusercontent.com/112504087/206827455-c88be50d-6d0d-48a0-b8ef-8a44772f7dca.png)
+
+
 
