@@ -29,8 +29,8 @@
 
 #define TOUCH_DATA (TSI0->DATA & 0xFFFF)  				/*abstracting the reception of  analog value from the TS->10 data*/
 
-volatile int touch_val_var = 0;
-bool readtouch_st = false;
+volatile int touch_val_var = 0;						/* varible to hold the current touch val*/
+bool readtouch_st = false;						/* flag variable to read the tsi value only if the interrupt is called for TSI*/
 
 void TSIInit(void)
 {
@@ -76,6 +76,6 @@ int get_touch_val(void)
 		readtouch_st = false;			/*reset the read touch TSI capacitive value only if the the read is executed*/
 		return touch_val_var;			/*return touch val*/
 	}
-	return 0;							/*return an invalid touch value*/
+	return 0;					/*return an invalid touch value*/
 }
 
