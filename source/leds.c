@@ -26,7 +26,7 @@
 #include "stdio.h"
 #include "math.h"
 
-#define LED_DEG_10  		(18)				/*led Intentsity for 10 deg change*/
+#define LED_DEG_10  			(18)				/*led Intentsity for 10 deg change*/
 #define LED_DEG_20 			(36)				/*led Intentsity for 20 deg change*/
 #define LED_DEG_30			(72)				/*led Intentsity for 30 deg change*/
 #define LED_DEG_40			(109)				/*led Intentsity for 40 deg change*/
@@ -34,10 +34,10 @@
 #define LED_DEG_60			(182)				/*led Intentsity for 60 deg change*/
 #define LED_DEG_70			(218)				/*led Intentsity for 70 deg change*/
 #define LED_DEG_80			(255)				/*led Intentsity for 80 deg change*/
-#define MAX_COLOR_VAL		(255)				/*255 degree equivalent*/
+#define MAX_COLOR_VAL			(255)				/*255 degree equivalent*/
 
 
-
+/*const table for the LEd color change*/
 const int change_color[] = {LED_DEG_10, LED_DEG_20, LED_DEG_30, LED_DEG_40, LED_DEG_50, LED_DEG_60, LED_DEG_70, LED_DEG_80};
 
 void Init_RGB_LEDs(int period) {
@@ -81,14 +81,16 @@ void Init_RGB_LEDs(int period) {
 bool setledpwm_uphill(void)
 {
 	int idx;
-	static int ref_time = 0;
-	static int recover_criticond = 0;
-	ref_time = now();
-	read_full_xyz();
+	static int ref_time = 0;				/*temp variable to store the reference timer*/
+	static int recover_criticond = 0;			/*flag variable for recover from critical mode*/
+	ref_time = now();					/*calculate the refernce timer*/
+	read_full_xyz();					/*read the acceleration sensor value*/
 	convert_xyz_to_roll_pitch();
 
-	while((pitch > DEG_10 )&& (fabs(roll) < DEG_20) )
+	/* Perform uphill led color change if the pitch is more than 10 degree*/
+	while((pitch >= DEG_10 )&& (fabs(roll) < DEG_45) )
 	{
+		/* Print the angle every 1 sec*/
 		if(now() - ref_time == TIME_PERIOD_1SEC)
 		{
 			ref_time = now();
@@ -102,13 +104,14 @@ bool setledpwm_uphill(void)
 			{
 				return true;
 			}
-			idx = (pitch/DEG_10)-1;
+			idx = (pitch/DEG_10)-1;						/*calculate the idx for the led table*/
 			TPM2->CONTROLS[0].CnV = 0;
-			TPM2->CONTROLS[1].CnV = change_color[idx];
-			TPM0->CONTROLS[1].CnV = 0;						/*store the start time for counting initial 250sec ref*/
+			TPM2->CONTROLS[1].CnV = change_color[idx];			/* change the green led accroding to the constant table value*/
+			TPM0->CONTROLS[1].CnV = 0;						
 		}
 		else if(((int)(pitch) >= DEG_80) && (recover_criticond == 0))
 		{
+			/* reset the led color for critical drive mode*/
 			recover_criticond = 1;
 			printf("CRITICAL DRIVE CONDITION\r\n");
 			TPM2->CONTROLS[0].CnV = 0;
@@ -126,18 +129,19 @@ bool setledpwm_downhill(void)
 	int idx;
 	static int ref_time = 0;
 	static int recover_criticond = 0;
-	ref_time = now();
-	read_full_xyz();
+	ref_time = now();							/*calculate the refernce timer*/
+	read_full_xyz();							/*read the acceleration sensor value*/
 	convert_xyz_to_roll_pitch();
 
-	while((pitch < -DEG_10 )&& (fabs(roll) < DEG_20))			/*wait for 10sec period*/
+	while((pitch < -DEG_10 )&& (fabs(roll) < DEG_45))			
 	{
 		if(now() - ref_time == TIME_PERIOD_1SEC)
 		{
+			/* Print the angle every 1 sec*/
 			ref_time = now();
 			printf("Current Downhill Angle %d\r\n", (int)pitch);
 		}
-		TSI0->DATA |= TSI_DATA_SWTS_MASK; 		/*set the software interrupt trigger*/
+		TSI0->DATA |= TSI_DATA_SWTS_MASK; 							/*set the software interrupt trigger*/
 		if(pitch > -DEG_80)
 		{
 			recover_criticond = 0;
@@ -152,6 +156,7 @@ bool setledpwm_downhill(void)
 		}
 		else if(((int)pitch < -DEG_80) && (recover_criticond == 0))
 		{
+			/* reset the led color for critical drive mode*/
 			recover_criticond = 1;
 			printf("CRITICAL DRIVE CONDITION\r\n");
 			TPM2->CONTROLS[0].CnV = 0;
@@ -170,14 +175,14 @@ bool setledpwm_plainterrain(void)
 
 	while((fabs(roll) < DEG_5) && (fabs(pitch) < DEG_10))			/*wait for 10sec period*/
 	{
-		TSI0->DATA |= TSI_DATA_SWTS_MASK; 		/*set the software interrupt trigger*/
+		TSI0->DATA |= TSI_DATA_SWTS_MASK; 				/*set the software interrupt trigger*/
 		if(get_touch_val() > VALID_TOUCH)
 		{
 			return true;
 		}
 		TPM2->CONTROLS[0].CnV = 0;
 		TPM2->CONTROLS[1].CnV = 0;
-		TPM0->CONTROLS[1].CnV = 0;						/*store the start time for counting initial 250sec ref*/
+		TPM0->CONTROLS[1].CnV = 0;					/*reset the led for plain terrain*/
 		read_full_xyz();
 		convert_xyz_to_roll_pitch();
 	}
@@ -188,11 +193,11 @@ bool setledpwm_parkbrake(void)
 {
 	TSI0->DATA |= TSI_DATA_SWTS_MASK; 		/*set the software interrupt trigger*/
 
-	while(get_touch_val() > VALID_TOUCH)			/*wait for 10sec period*/
+	while(get_touch_val() > VALID_TOUCH)			
 	{
-		TPM2->CONTROLS[0].CnV = MAX_COLOR_VAL;
+		TPM2->CONTROLS[0].CnV = MAX_COLOR_VAL;		/*set the red led color for park brake*/
 		TPM2->CONTROLS[1].CnV = 0;
-		TPM0->CONTROLS[1].CnV = 0;						/*store the start time for counting initial 250sec ref*/
+		TPM0->CONTROLS[1].CnV = 0;						
 	}
 	return false;
 }
