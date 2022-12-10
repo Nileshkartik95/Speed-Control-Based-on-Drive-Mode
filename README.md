@@ -1,4 +1,4 @@
-# ECEN 5813 - Principles of Embedded Software Speed Control based on Driving Condition
+# ECEN 5813 - Principles of Embedded Software: Speed Control based on Driving Condition
 #### As a part of my final project for the ECEN 5813, I wish to demonstrate the torque demand calculation for the modern vehicle, although automotive systems are more complex with a lot of complex modules integrated to build a domain centralized system and due to the limitations of these complex setups and hardware resources I have demonstrated the torque demands of our vehicle with the help of the onboard LED by controlling the PWM.
 The following components are integrated into virtual vehicle control systems:
 >Acceleration sensor
@@ -73,5 +73,7 @@ parkBrake from Downhill condition
 
 ![image](https://user-images.githubusercontent.com/112504087/206827979-25b2665c-1352-468d-ab67-b6c5144fe603.png)
 
+Video of the Demo can be found here:
 
+https://youtu.be/B69gf_OKjvc
 
